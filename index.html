@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather API</title>
+    <link rel="stylesheet" href="weatherStyle.css">
+</head>
+<body>
+   <div class="Weather">
+    
+    <div class="search">
+        <input type="text" placeholder="Enter your city name: ">
+        <button><img src="search.png"></button>
+    </div>
+    <div class="error">
+        <p>Invalid Name</p>
+    </div>
+  <div class="weather">
+    <img src="rain.png" class="weather-icon">
+    <h1 class="temp">22°c</h1>
+    <h2 class="city">Kanyakumari</h2>
+    <div class="details">
+        <div class="col">
+            <img src="humidity.png">
+            <div >
+
+            <p class="humidity">50%</p>
+                <p>Humidity</p>
+            </div>
+        </div>
+        <div class="col">
+            <img src="wind.png">
+            <div >
+
+            <p class="wind">15 km/h</p>
+                <p>Wind Speed</p>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+ </div> 
+
+   <script>
+         
+const ApiKey="14bee326c01037395e24044b7363c650";
+const ApiUrl="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+const searchBox=document.querySelector(".search input");
+const searchBtn=document.querySelector(".search button");  
+const weatherIcon=document.querySelector(".weather-icon");
+// const Weatherback=document.querySelector(".weather")
+
+async function checkWeather(city) //async is used for non blocking codes (js is asynchronous).it doesnot depend on another pgm or task.it use await keyowrd to resolve the promise
+{
+    const response= await fetch(ApiUrl +city+ `&appid=${ApiKey}`);
+    
+  if(response.status == 404)
+  {
+    document.querySelector(".error").style.display="block";
+    document.querySelector(".weather").style.display="none";
+    document.querySelector("body").style.background="black";
+    document.querySelector(".Weather").style.background="black";
+  }
+  else{
+    var data= await response.json();
+    console.log(data);
+
+    document.querySelector(".city").innerHTML=data.name;
+    document.querySelector(".temp").innerHTML=Math.round(data.main.temp)+"°c";
+    document.querySelector(".humidity").innerHTML=data.main.humidity +"%";
+    document.querySelector(".wind").innerHTML=data.wind.speed +" km/h";
+
+    if(data.weather[0].main == "Clouds"){
+        weatherIcon.src="clouds.png";
+        document.querySelector(".Weather").style.backgroundImage="url('cloudwe.png')";
+        document.querySelector(".Weather").style.backgroundSize="cover";
+        document.querySelector(".Weather").style.backgroundPosition="center";
+        document.querySelector(".Weather").style.height="100%";
+        document.querySelector(".Weather").style.backgroundRepeat="no-repeat";
+        document.querySelector("body").style.backgroundImage="url('cloudwe.png')";
+        document.querySelector("body").style.backgroundSize="cover";
+        document.querySelector("body").style.backgroundPosition="center";
+        document.querySelector("body").style.height="100%";
+        
+
+        
+    }
+    else if(data.weather[0].main == "Clear")
+    {
+        weatherIcon.src="clear.png";
+       
+       document.querySelector(".Weather").style.backgroundImage="url('clearweather.png')";
+        document.querySelector(".Weather").style.backgroundSize="cover";
+        document.querySelector(".Weather").style.backgroundPosition="center";
+        document.querySelector(".Weather").style.height="100%";
+        document.querySelector(".Weather").style.backgroundRepeat="no-repeat";
+        document.querySelector("body").style.backgroundImage="url('clearweather.png')" ;
+        document.querySelector("body").style.backgroundSize="cover";
+        document.querySelector("body").style.backgroundPosition="center";
+        document.querySelector("body").style.height="100%";
+        
+    }
+    else if(data.weather[0].main == "Rain")
+    {
+        weatherIcon.src="rain.png";
+        document.querySelector(".Weather").style.backgroundImage="url('rainyweather.png')";
+        document.querySelector(".Weather").style.backgroundSize="cover";
+        document.querySelector(".Weather").style.backgroundPosition="center";
+        document.querySelector(".Weather").style.height="100%";
+        document.querySelector(".Weather").style.backgroundRepeat="no-repeat";
+        document.querySelector("body").style.backgroundImage="url('rainyweather.png')";
+        document.querySelector("body").style.backgroundSize="cover";
+        document.querySelector("body").style.backgroundPosition="center";
+        document.querySelector("body").style.height="100%";
+        
+    }
+    else if(data.weather[0].main == "Drizzle")
+    {
+        weatherIcon.src="drizzle.png";
+        document.querySelector(".Weather").style.backgroundImage="url('drizzleweather.png')";
+        document.querySelector(".Weather").style.backgroundSize="cover";
+        document.querySelector(".Weather").style.backgroundPosition="center";
+        document.querySelector(".Weather").style.height="100%";
+        document.querySelector(".Weather").style.backgroundRepeat="no-repeat";
+        document.querySelector("body").style.backgroundImage="url('drizzleweather.png')";
+        document.querySelector("body").style.backgroundSize="cover";
+        document.querySelector("body").style.backgroundPosition="center";
+        document.querySelector("body").style.height="100%";
+        
+    }
+    else if(data.weather[0].main == "Mist")
+    {
+        weatherIcon.src="mist.png";
+        document.querySelector(".Weather").style.backgroundImage="url('mistweather.png')";
+        document.querySelector(".Weather").style.backgroundSize="cover";
+        document.querySelector(".Weather").style.backgroundPosition="center";
+        document.querySelector(".Weather").style.height="100%";
+        document.querySelector(".Weather").style.backgroundRepeat="no-repeat";
+        document.querySelector("body").style.backgroundImage="url('mistweather.png')";
+        document.querySelector("body").style.backgroundSize="cover";
+        document.querySelector("body").style.backgroundPosition="center";
+        document.querySelector("body").style.height="100%";
+        
+    }
+    document.querySelector(".weather").style.display="block";
+    document.querySelector(".error").style.display="none";
+}
+}
+searchBtn.addEventListener("click",()=>{
+
+    checkWeather(searchBox.value);
+})
+
+   </script>
+</body>
+</html>
